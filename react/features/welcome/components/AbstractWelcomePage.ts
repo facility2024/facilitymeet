@@ -74,6 +74,7 @@ interface IState {
     isLoggedIn: boolean;
     loginPassword: string;
     loginError: boolean;
+    loginEmail: string;
 }
 
 /**
@@ -112,7 +113,8 @@ export class AbstractWelcomePage<P extends IProps> extends Component<P, IState> 
         hintBoxAnimation: 0,
         isLoggedIn: false,
         loginPassword: '',
-        loginError: false
+        loginError: false,
+        loginEmail: ''
     };
 
     /**

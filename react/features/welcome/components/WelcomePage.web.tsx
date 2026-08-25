@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createClient } from '@supabase/supabase-js';
 
 import { isMobileBrowser } from '../../base/environment/utils';
 import { translate, translateToHTML } from '../../base/i18n/functions';
@@ -14,6 +15,10 @@ import { SETTINGS_TABS } from '../../settings/constants';
 
 import { AbstractWelcomePage, IProps, _mapStateToProps } from './AbstractWelcomePage';
 import Tabs from './Tabs';
+
+const supabaseUrl = 'https://tietviiignizbjwqmtoh.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpZXR2aWlpZ25pemJqd3FtdG9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTMxMzcsImV4cCI6MjEwMjM2OTEzN30.kweCCNgdx1KxwrScWu1MeN9qgG3DFr23yAQBiI_cq0w';
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
  * The pattern used to validate room name.
@@ -55,7 +60,8 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
     constructor(props: IProps) {
         super(props);
 
-        const isLoggedIn = localStorage.getItem('facilitymeet_auth') === 'true';
+        const session = localStorage.getItem('facilitymeet_session');
+        const isLoggedIn = !!session;
 
         this.state = {
             ...this.state,
@@ -64,7 +70,8 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                 interfaceConfig.GENERATE_ROOMNAMES_ON_WELCOME_PAGE,
             isLoggedIn,
             loginPassword: '',
-            loginError: false
+            loginError: false,
+            loginEmail: ''
         };
 
         /**
@@ -139,16 +146,30 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
         this._renderFooter = this._renderFooter.bind(this);
         this._onLoginSubmit = this._onLoginSubmit.bind(this);
         this._onLoginPasswordChange = this._onLoginPasswordChange.bind(this);
+        this._onLoginEmailChange = this._onLoginEmailChange.bind(this);
         this._onLogout = this._onLogout.bind(this);
     }
 
-    _onLoginSubmit(e: React.FormEvent) {
+    async _onLoginSubmit(e: React.FormEvent) {
         e.preventDefault();
-        const { loginPassword } = this.state;
-        if (loginPassword === interfaceConfig.ADMIN_PASSWORD) {
-            localStorage.setItem('facilitymeet_auth', 'true');
-            this.setState({ isLoggedIn: true, loginError: false, loginPassword: '' });
-        } else {
+        const { loginEmail, loginPassword } = this.state;
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: loginEmail,
+                password: loginPassword
+            });
+
+            if (error) {
+                this.setState({ loginError: true });
+                return;
+            }
+
+            if (data.session) {
+                localStorage.setItem('facilitymeet_session', JSON.stringify(data.session));
+                this.setState({ isLoggedIn: true, loginError: false, loginPassword: '', loginEmail: '' });
+            }
+        } catch (err) {
             this.setState({ loginError: true });
         }
     }
@@ -157,9 +178,14 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
         this.setState({ loginPassword: e.target.value, loginError: false });
     }
 
-    _onLogout() {
-        localStorage.removeItem('facilitymeet_auth');
-        this.setState({ isLoggedIn: false, loginPassword: '' });
+    _onLoginEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ loginEmail: e.target.value, loginError: false });
+    }
+
+    async _onLogout() {
+        await supabase.auth.signOut();
+        localStorage.removeItem('facilitymeet_session');
+        this.setState({ isLoggedIn: false, loginPassword: '', loginEmail: '' });
     }
 
     _renderLoginScreen() {
@@ -175,12 +201,18 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                     <form className = 'login-form' onSubmit = { this._onLoginSubmit }>
                         <input
                             className = 'login-input'
+                            onChange = { this._onLoginEmailChange }
+                            placeholder = 'Email'
+                            type = 'email'
+                            value = { this.state.loginEmail } />
+                        <input
+                            className = 'login-input'
                             onChange = { this._onLoginPasswordChange }
-                            placeholder = 'Digite a senha'
+                            placeholder = 'Senha'
                             type = 'password'
                             value = { this.state.loginPassword } />
                         {this.state.loginError && (
-                            <span className = 'login-error'>Senha incorreta</span>
+                            <span className = 'login-error'>Email ou senha incorretos</span>
                         )}
                         <button
                             className = 'login-button'
