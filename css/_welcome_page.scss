@@ -367,13 +367,17 @@ body.welcome-page {
     max-height: 50vh;
     order: 2;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .header-right img {
     position: relative;
-    width: 100%;
+    width: auto;
     height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   .main-title {
