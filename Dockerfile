@@ -2,8 +2,8 @@ FROM node:24-slim AS build
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install --ignore-scripts --legacy-peer-deps
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts --legacy-peer-deps
 
 COPY . .
 
