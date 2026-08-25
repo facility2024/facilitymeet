@@ -1,0 +1,10 @@
+.git
+.github
+*.log
+.DS_Store
+android
+ios
+react-native
+tests
+resources
+build
