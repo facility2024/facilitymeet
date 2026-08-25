@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --legacy-peer-deps
-RUN npm install ajv@8 --ignore-scripts --legacy-peer-deps
+RUN npm install ajv@8 @supabase/supabase-js --ignore-scripts --legacy-peer-deps
 
 COPY . .
 

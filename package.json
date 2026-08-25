@@ -45,6 +45,7 @@
     "@react-navigation/stack": "6.4.1",
     "@sayem314/react-native-keep-awake": "1.4.0",
     "@stomp/stompjs": "7.0.0",
+    "@supabase/supabase-js": "^2.112.4",
     "@svgr/webpack": "6.3.1",
     "@tensorflow-models/body-segmentation": "1.0.2",
     "@tensorflow/tfjs-backend-wasm": "4.22.0",
