@@ -1,0 +1,97 @@
+version: '3.8'
+
+networks:
+  meet.jit.si:
+    driver: bridge
+
+services:
+  # Frontend - FacilityMeet
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - prosody
+      - jicofo
+      - jvb
+    networks:
+      - meet.jit.si
+    restart: unless-stopped
+
+  # XMPP Server
+  prosody:
+    image: jitsi/prosody:stable-9822
+    hostname: xmpp.meet.jit.si
+    environment:
+      - PUBLIC_URL=meet.jit.si
+      - XMPP_DOMAIN=meet.jit.si
+      - XMPP_MUC_DOMAIN=muc.meet.jit.si
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jit.si
+      - XMPP_RECORDER_DOMAIN=recorder.meet.jit.si
+      - XMPP_GUEST_DOMAIN=guest.meet.jit.si
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=1
+      - JWT_APP_ID=
+      - JWT_APP_SECRET=
+      - JWT_ALLOW_EMPTY=0
+      - JWT_AUTH_TOKEN=
+      - JWT_ACCEPTED_ISSUERS=
+      - JWT_ACCEPTED_AUDIENCES=
+      - JWT_ASAP_KEY_PUBLIC_URL=
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ./prosody/config:/config:rw
+      - ./prosody/prosody-plugins-custom:/prosody-plugins-custom:rw
+    networks:
+      meet.jit.si:
+        aliases:
+          - xmpp.meet.jit.si
+    restart: unless-stopped
+
+  # Conference Manager
+  jicofo:
+    image: jitsi/jicofo:stable-9822
+    hostname: jicofo.meet.jit.si
+    environment:
+      - PUBLIC_URL=meet.jit.si
+      - XMPP_DOMAIN=meet.jit.si
+      - XMPP_MUC_DOMAIN=muc.meet.jit.si
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jit.si
+      - XMPP_RECORDER_DOMAIN=recorder.meet.jit.si
+      - XMPP_GUEST_DOMAIN=guest.meet.jit.si
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=1
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - prosody
+    networks:
+      meet.jit.si:
+        aliases:
+          - jicofo.meet.jit.si
+    restart: unless-stopped
+
+  # Video Bridge (Media)
+  jvb:
+    image: jitsi/jvb:stable-9822
+    hostname: jvb.meet.jit.si
+    ports:
+      - "10000:10000/udp"
+    environment:
+      - PUBLIC_URL=meet.jit.si
+      - XMPP_DOMAIN=meet.jit.si
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jit.si
+      - JVB_PORT=10000
+      - JVB_ADVERTISED_IP=IP_DO_SERVIDOR
+      - JVB_STUN_IPs=meet.jit.si:443
+      - JVB_OCTO_IP=0.0.0.0
+      - JVB_OCTO_PORT=4096
+      - ENABLE_STATS=0
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - prosody
+    networks:
+      - meet.jit.si
+    restart: unless-stopped

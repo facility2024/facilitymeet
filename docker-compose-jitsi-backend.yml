@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  prosody:
+    image: jitsi/prosody:stable-9822
+    environment:
+      - PUBLIC_URL=meetfacility.linkdree.com.br
+      - PUBLIC_IP=IP_DO_SEU_VPS
+      - XMPP_DOMAIN=meetfacility.linkdree.com.br
+      - XMPP_MUC_DOMAIN=muc.meetfacility.linkdree.com.br
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meetfacility.linkdree.com.br
+      - XMPP_RECORDER_DOMAIN=recorder.meetfacility.linkdree.com.br
+      - XMPP_GUEST_DOMAIN=guest.meetfacility.linkdree.com.br
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=1
+      - TZ=America/Sao_Paulo
+    restart: unless-stopped
+
+  jicofo:
+    image: jitsi/jicofo:stable-9822
+    environment:
+      - PUBLIC_URL=meetfacility.linkdree.com.br
+      - PUBLIC_IP=IP_DO_SEU_VPS
+      - XMPP_DOMAIN=meetfacility.linkdree.com.br
+      - XMPP_MUC_DOMAIN=muc.meetfacility.linkdree.com.br
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meetfacility.linkdree.com.br
+      - XMPP_RECORDER_DOMAIN=recorder.meetfacility.linkdree.com.br
+      - XMPP_GUEST_DOMAIN=guest.meetfacility.linkdree.com.br
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=1
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - prosody
+    restart: unless-stopped
+
+  jvb:
+    image: jitsi/jvb:stable-9822
+    ports:
+      - "10000:10000/udp"
+    environment:
+      - PUBLIC_URL=meetfacility.linkdree.com.br
+      - PUBLIC_IP=IP_DO_SEU_VPS
+      - XMPP_DOMAIN=meetfacility.linkdree.com.br
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meetfacility.linkdree.com.br
+      - JVB_PORT=10000
+      - JVB_ADVERTISED_IP=IP_DO_SEU_VPS
+      - JVB_OCTO_IP=0.0.0.0
+      - JVB_OCTO_PORT=4096
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - prosody
+    restart: unless-stopped

@@ -30,10 +30,10 @@ var config = {
 
     hosts: {
         // XMPP domain.
-        domain: 'meet.jit.si',
+        domain: 'meetfacility.linkdree.com.br',
 
         // When using authentication, domain for guest users.
-        anonymousdomain: 'guest.meet.jit.si',
+        anonymousdomain: 'guest.meetfacility.linkdree.com.br',
 
         // Domain for authenticated users. Defaults to <domain>.
         // authdomain: 'jitsi-meet.example.com',
@@ -42,14 +42,14 @@ var config = {
         // focus: 'focus.jitsi-meet.example.com',
 
         // XMPP MUC domain. FIXME: use XEP-0030 to discover it.
-        muc: 'conference.meet.jit.si',
+        muc: 'conference.meetfacility.linkdree.com.br',
     },
 
     // BOSH URL. FIXME: use XEP-0156 to discover it.
-    bosh: 'https://meet.jit.si/http-bind',
+    bosh: 'https://meetfacility.linkdree.com.br/http-bind',
 
     // Websocket URL (XMPP)
-    websocket: 'wss://meet.jit.si/xmpp-websocket',
+    websocket: 'wss://meetfacility.linkdree.com.br/xmpp-websocket',
 
     // websocketKeepAliveUrl: 'https://jitsi-meet.example.com/' + subdir + '_unlock',
 
@@ -1459,7 +1459,7 @@ var config = {
         // Whether participant can only create polls if `create-polls` feature is enabled in jwt.
         pollCreationRequiresPermission: false,
         // The domain url to apply (will replace the domain in the sharing conference link/embed section)
-        inviteDomain: 'agencia-meetfacility.nisqla.easypanel.host',
+        inviteDomain: 'meetfacility.linkdree.com.br',
         // The hex value for the colour used as background
         backgroundColor: '#fff',
         // The url for the image used as background
