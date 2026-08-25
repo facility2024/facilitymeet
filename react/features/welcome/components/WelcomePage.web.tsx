@@ -55,11 +55,16 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
     constructor(props: IProps) {
         super(props);
 
+        const isLoggedIn = localStorage.getItem('facilitymeet_auth') === 'true';
+
         this.state = {
             ...this.state,
 
             generateRoomNames:
-                interfaceConfig.GENERATE_ROOMNAMES_ON_WELCOME_PAGE
+                interfaceConfig.GENERATE_ROOMNAMES_ON_WELCOME_PAGE,
+            isLoggedIn,
+            loginPassword: '',
+            loginError: false
         };
 
         /**
@@ -132,6 +137,60 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
         this._setAdditionalToolbarContentRef
             = this._setAdditionalToolbarContentRef.bind(this);
         this._renderFooter = this._renderFooter.bind(this);
+        this._onLoginSubmit = this._onLoginSubmit.bind(this);
+        this._onLoginPasswordChange = this._onLoginPasswordChange.bind(this);
+        this._onLogout = this._onLogout.bind(this);
+    }
+
+    _onLoginSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        const { loginPassword } = this.state;
+        if (loginPassword === interfaceConfig.ADMIN_PASSWORD) {
+            localStorage.setItem('facilitymeet_auth', 'true');
+            this.setState({ isLoggedIn: true, loginError: false, loginPassword: '' });
+        } else {
+            this.setState({ loginError: true });
+        }
+    }
+
+    _onLoginPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ loginPassword: e.target.value, loginError: false });
+    }
+
+    _onLogout() {
+        localStorage.removeItem('facilitymeet_auth');
+        this.setState({ isLoggedIn: false, loginPassword: '' });
+    }
+
+    _renderLoginScreen() {
+        return (
+            <div className = 'login-screen'>
+                <div className = 'login-container'>
+                    <img
+                        className = 'login-logo'
+                        src = 'https://coconudimudial.b-cdn.net/AGENCIA%20FACILITY/MEET%20%281%29.jpg'
+                        alt = 'FacilityMeet' />
+                    <h1 className = 'login-title'>FacilityMeet</h1>
+                    <span className = 'login-subtitle'>Acesse para criar salas</span>
+                    <form className = 'login-form' onSubmit = { this._onLoginSubmit }>
+                        <input
+                            className = 'login-input'
+                            onChange = { this._onLoginPasswordChange }
+                            placeholder = 'Digite a senha'
+                            type = 'password'
+                            value = { this.state.loginPassword } />
+                        {this.state.loginError && (
+                            <span className = 'login-error'>Senha incorreta</span>
+                        )}
+                        <button
+                            className = 'login-button'
+                            type = 'submit'>
+                            Entrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
     }
 
     /**
@@ -189,6 +248,11 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
      */
     override render() {
         const { _moderatedRoomServiceUrl, t } = this.props;
+
+        if (!this.state.isLoggedIn) {
+            return this._renderLoginScreen();
+        }
+
         const { DEFAULT_WELCOME_PAGE_LOGO_URL, DISPLAY_WELCOME_FOOTER } = interfaceConfig;
         const showAdditionalCard = this._shouldShowAdditionalCard();
         const showAdditionalContent = this._shouldShowAdditionalContent();
@@ -203,6 +267,12 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                 <div className = 'welcome-header'>
                     <div className = 'header-left'>
                         <div className = 'welcome-page-settings'>
+                            <button
+                                className = 'logout-button'
+                                onClick = { this._onLogout }
+                                title = 'Sair'>
+                                ✕
+                            </button>
                             <SettingsButton
                                 defaultTab = { SETTINGS_TABS.CALENDAR }
                                 isDisplayedOnWelcomePage = { true } />

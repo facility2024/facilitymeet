@@ -71,6 +71,9 @@ interface IState {
     roomNameInputAnimation?: any;
     roomPlaceholder: string;
     updateTimeoutId?: number;
+    isLoggedIn: boolean;
+    loginPassword: string;
+    loginError: boolean;
 }
 
 /**
@@ -106,7 +109,10 @@ export class AbstractWelcomePage<P extends IProps> extends Component<P, IState> 
         _fieldFocused: false,
         isSettingsScreenFocused: false,
         roomNameInputAnimation: 0,
-        hintBoxAnimation: 0
+        hintBoxAnimation: 0,
+        isLoggedIn: false,
+        loginPassword: '',
+        loginError: false
     };
 
     /**
