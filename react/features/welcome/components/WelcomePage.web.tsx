@@ -60,15 +60,12 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
     constructor(props: IProps) {
         super(props);
 
-        const session = localStorage.getItem('facilitymeet_session');
-        const isLoggedIn = !!session;
-
         this.state = {
             ...this.state,
 
             generateRoomNames:
                 interfaceConfig.GENERATE_ROOMNAMES_ON_WELCOME_PAGE,
-            isLoggedIn,
+            isLoggedIn: false,
             loginPassword: '',
             loginError: false,
             loginEmail: ''
@@ -166,7 +163,6 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
             }
 
             if (data.session) {
-                localStorage.setItem('facilitymeet_session', JSON.stringify(data.session));
                 this.setState({ isLoggedIn: true, loginError: false, loginPassword: '', loginEmail: '' });
             }
         } catch (err) {
@@ -184,7 +180,6 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
 
     async _onLogout() {
         await supabase.auth.signOut();
-        localStorage.removeItem('facilitymeet_session');
         this.setState({ isLoggedIn: false, loginPassword: '', loginEmail: '' });
     }
 
