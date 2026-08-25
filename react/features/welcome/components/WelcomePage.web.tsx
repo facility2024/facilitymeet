@@ -200,10 +200,14 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
             <div
                 className = { `welcome ${contentClassName} ${footerClassName}` }
                 id = 'welcome_page'>
-                <div className = 'header'>
-                    <div className = 'header-image' />
-                    <div className = 'header-container'>
-
+                <div className = 'welcome-header'>
+                    <div className = 'welcome-header-bg' />
+                    <div className = 'header-left'>
+                        <img
+                            src = 'https://coconudimudial.b-cdn.net/AGENCIA%20FACILITY/MEET%20%281%29.jpg'
+                            alt = 'FacilityMeet' />
+                    </div>
+                    <div className = 'header-right'>
                         <div className = 'welcome-page-settings'>
                             <SettingsButton
                                 defaultTab = { SETTINGS_TABS.CALENDAR }
@@ -215,19 +219,16 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                                 : null
                             }
                         </div>
-                        <h1 className = 'header-text-title'>
-                            {t('welcomepage.headerTitle')}
-                        </h1>
-                        <span className = 'header-text-subtitle'>
-                            {t('welcomepage.headerSubtitle')}
+                        <h1 className = 'main-title'>FacilityMeet</h1>
+                        <span className = 'subtitle'>
+                            Uma experiencia unica com a FacilityMeet
                         </span>
                         <div id = 'enter_room'>
                             <div className = 'join-meeting-container'>
                                 <div className = 'enter-room-input-container'>
                                     <form onSubmit = { this._onFormSubmit }>
                                         <input
-                                            aria-disabled = 'false'
-                                            aria-label = 'Meeting name input'
+                                            aria-label = 'Sala'
                                             autoFocus = { true }
                                             className = 'enter-room-input'
                                             id = 'enter_room_field'
@@ -239,10 +240,7 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                                             value = { this.state.room } />
                                     </form>
                                 </div>
-
                                 <button
-                                    aria-disabled = 'false'
-                                    aria-label = 'Start meeting'
                                     className = 'welcome-page-button'
                                     id = 'enter_room_button'
                                     onClick = { this._onFormSubmit }
@@ -263,14 +261,12 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                             </div>
                         )}
                         {this._renderInsecureRoomNameWarning()}
-
                         {_moderatedRoomServiceUrl && (
                             <div id = 'moderated-meetings'>
-                                {
-                                    translateToHTML(
-                                        t, 'welcomepage.moderatedMessage', { url: _moderatedRoomServiceUrl })
-                                }
-                            </div>)}
+                                {translateToHTML(
+                                    t, 'welcomepage.moderatedMessage', { url: _moderatedRoomServiceUrl })}
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -373,9 +369,9 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
             <div className = 'welcome-footer-centered'>
                 <div className = 'welcome-footer-padded'>
                     <div className = 'welcome-footer-row-block welcome-footer--row-1'>
-                        <div className = 'welcome-footer-row-1-text'>
-                            FacilityMeet.com — Uma experiencia unica de videoconferencia
-                        </div>
+                        <span className = 'welcome-footer-row-1-text'>
+                            FacilityMeet &mdash; Uma experiencia unica em videoconferencia
+                        </span>
                     </div>
                 </div>
             </div>
