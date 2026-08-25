@@ -201,13 +201,7 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                 className = { `welcome ${contentClassName} ${footerClassName}` }
                 id = 'welcome_page'>
                 <div className = 'welcome-header'>
-                    <div className = 'welcome-header-bg' />
                     <div className = 'header-left'>
-                        <img
-                            src = 'https://coconudimudial.b-cdn.net/AGENCIA%20FACILITY/MEET%20%281%29.jpg'
-                            alt = 'FacilityMeet' />
-                    </div>
-                    <div className = 'header-right'>
                         <div className = 'welcome-page-settings'>
                             <SettingsButton
                                 defaultTab = { SETTINGS_TABS.CALENDAR }
@@ -267,6 +261,11 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                                     t, 'welcomepage.moderatedMessage', { url: _moderatedRoomServiceUrl })}
                             </div>
                         )}
+                    </div>
+                    <div className = 'header-right'>
+                        <img
+                            src = 'https://coconudimudial.b-cdn.net/AGENCIA%20FACILITY/MEET%20%281%29.jpg'
+                            alt = 'FacilityMeet' />
                     </div>
                 </div>
 
