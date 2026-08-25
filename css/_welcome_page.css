@@ -1,0 +1,390 @@
+body.welcome-page {
+  background: #000;
+  overflow-x: hidden;
+}
+
+.welcome {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER - Two column layout */
+.welcome-header {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  position: relative;
+}
+
+.welcome-header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://coconudimudial.b-cdn.net/AGENCIA%20FACILITY/MEET%20%281%29.jpg") center/cover no-repeat;
+  z-index: 0;
+}
+
+/* Left side - Image */
+.header-left {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.header-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right side - Form */
+.header-right {
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 40px;
+}
+
+.welcome-page-settings {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.welcome-page-settings * {
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+}
+
+.main-title {
+  font-size: 48px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-style: italic;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  text-align: left;
+}
+
+/* Input and button */
+#enter_room {
+  width: 100%;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.join-meeting-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.enter-room-input-container {
+  flex: 1;
+  padding: 0;
+}
+
+.enter-room-input {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 14px;
+  background: transparent;
+  color: #333;
+  outline: none;
+}
+
+.enter-room-input:focus {
+  outline: 2px solid #1a73e8;
+  outline-offset: -2px;
+}
+
+.enter-room-input::placeholder {
+  color: #666;
+}
+
+.welcome-page-button {
+  background-color: #1a73e8;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.welcome-page-button:hover {
+  background-color: #1557b0;
+}
+
+.meeting-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.meeting-toolbar button {
+  background: rgba(50, 50, 50, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meeting-toolbar button:hover {
+  background: rgba(80, 80, 80, 0.9);
+}
+
+.mic-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #4caf50;
+  font-size: 13px;
+}
+
+.mic-status .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4caf50;
+  border-radius: 50%;
+}
+
+/* Watermark (hidden) */
+.header-watermark-container {
+  display: none;
+}
+
+/* Tab container */
+.tab-container {
+  font-size: 1rem;
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  display: block;
+  height: 250px;
+  margin: 5px 0;
+  overflow: hidden;
+  flex: 1;
+  position: relative;
+}
+
+.tab-buttons {
+  background-color: #c7ddff;
+  border-radius: 6px;
+  color: #0163FF;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  margin: 4px;
+  display: flex;
+}
+.tab-buttons [role=tab] {
+  background-color: #c7ddff;
+  border-radius: 7px;
+  cursor: pointer;
+  display: block;
+  flex: 1;
+  margin: 2px;
+  padding: 7px 0;
+  text-align: center;
+  color: inherit;
+  border: 0;
+}
+.tab-buttons [role=tab][aria-selected=true] {
+  background-color: #FFF;
+}
+
+/* Card styles */
+.welcome-card-column {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  max-width: 688px;
+  margin: auto;
+}
+.welcome-card-column > div {
+  margin-bottom: 16px;
+}
+
+.welcome-card-text {
+  padding: 32px;
+}
+
+.welcome-card {
+  width: 100%;
+  border-radius: 8px;
+}
+.welcome-card--dark {
+  background: #1a1a1a;
+  color: #fff;
+}
+.welcome-card--blue {
+  background: #1a73e8;
+  color: #fff;
+}
+.welcome-card--grey {
+  background: #f5f5f5;
+}
+
+/* Moderated meetings */
+#moderated-meetings {
+  max-width: 420px;
+  padding: 16px 0;
+  text-align: left;
+}
+#moderated-meetings a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Not allow character warning */
+.not-allow-title-character-div {
+  color: #f44336;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 10px 0;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: left;
+}
+
+.not-allow-title-character-text {
+  display: block;
+}
+
+/* Placeholder color */
+::placeholder {
+  color: #666;
+}
+
+/* Footer */
+.welcome-footer {
+  background: #0a0a0a;
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.welcome-footer-centered {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.welcome-footer-padded {
+  padding: 0 16px;
+}
+
+.welcome-footer-row-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-footer--row-1 {
+  padding: 10px 0;
+}
+
+.welcome-footer-row-1-text {
+  font-size: 16px;
+  font-style: italic;
+  color: #cccccc;
+}
+
+/* Without content (pre-join view) */
+.welcome.without-content .welcome-header {
+  justify-content: flex-end;
+}
+.welcome.without-content .header-left {
+  flex: 1;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .welcome-header {
+    flex-direction: column;
+  }
+
+  .header-left {
+    min-height: 40vh;
+    max-height: 50vh;
+  }
+
+  .header-right {
+    width: 100%;
+    min-height: auto;
+    padding: 24px 20px;
+  }
+
+  .main-title {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  #enter_room {
+    width: 100%;
+  }
+
+  .join-meeting-container {
+    flex-direction: column;
+  }
+
+  .welcome-page-button {
+    width: 100%;
+  }
+
+  #moderated-meings {
+    text-align: center;
+  }
+
+  .welcome-footer-row-1 {
+    padding: 30px 0;
+  }
+}
+
+/*# sourceMappingURL=_welcome_page.css.map */
