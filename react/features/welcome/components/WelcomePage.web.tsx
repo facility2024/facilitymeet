@@ -301,9 +301,8 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                         <div className = 'welcome-page-settings'>
                             <button
                                 className = 'logout-button'
-                                onClick = { this._onLogout }
-                                title = 'Sair'>
-                                ✕
+                                onClick = { this._onLogout }>
+                                Sair
                             </button>
                             <SettingsButton
                                 defaultTab = { SETTINGS_TABS.CALENDAR }
